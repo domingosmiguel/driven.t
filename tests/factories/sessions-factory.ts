@@ -1,6 +1,6 @@
+import { prisma } from '@/config';
 import { Session } from '@prisma/client';
 import { createUser } from './users-factory';
-import { prisma } from '@/config';
 
 export async function createSession(token: string): Promise<Session> {
   const user = await createUser();

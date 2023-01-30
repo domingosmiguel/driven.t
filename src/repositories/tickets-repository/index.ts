@@ -1,0 +1,69 @@
+import { prisma } from '@/config';
+import { NewTicketEntity } from '@/protocols';
+import { TicketStatus } from '@prisma/client';
+
+async function findTypes() {
+  return prisma.ticketType.findMany();
+}
+
+async function findTypeById(id: number) {
+  return prisma.ticketType.findFirst({
+    where: { id },
+  });
+}
+
+async function findTicketByEnrollmentId(enrollmentId: number) {
+  return prisma.ticket.findFirst({
+    where: { enrollmentId },
+    include: { TicketType: true },
+  });
+}
+
+async function findById(id: number) {
+  return prisma.ticket.findFirst({
+    where: { id },
+  });
+}
+
+// async function upsert(ticketData: NewTicketEntity) {
+//   return prisma.ticket.upsert({
+//     where: { id: ticketData.id || 0 },
+//     create: {
+//       ticketTypeId: ticketData.ticketTypeId,
+//       enrollmentId: ticketData.enrollmentId,
+//       status: TicketStatus.RESERVED,
+//     },
+//     update: { status: TicketStatus.PAID },
+//     include: { TicketType: true },
+//   });
+// }
+
+async function insert(ticketData: NewTicketEntity) {
+  return prisma.ticket.create({
+    data: {
+      ticketTypeId: ticketData.ticketTypeId,
+      enrollmentId: ticketData.enrollmentId,
+      status: TicketStatus.RESERVED,
+    },
+    include: { TicketType: true },
+  });
+}
+
+async function update(id: number) {
+  return prisma.ticket.update({
+    where: { id },
+    data: { status: TicketStatus.PAID },
+  });
+}
+
+const ticketsRepository = {
+  findTypes,
+  findTypeById,
+  findTicketByEnrollmentId,
+  findById,
+  // upsert,
+  insert,
+  update,
+};
+
+export default ticketsRepository;

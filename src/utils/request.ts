@@ -1,5 +1,4 @@
 import { requestError } from '@/errors';
-import { RequestError } from '@/protocols';
 import axios from 'axios';
 
 async function get(url: string) {
@@ -7,7 +6,7 @@ async function get(url: string) {
     const result = await axios.get(url);
     return result;
   } catch (error) {
-    const { status, statusText } = error.response as RequestError;
+    const { status, statusText } = error.response;
 
     return requestError(status, statusText);
   }

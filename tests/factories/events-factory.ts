@@ -1,7 +1,7 @@
-import dayjs from 'dayjs';
+import { prisma } from '@/config';
 import faker from '@faker-js/faker';
 import { Event } from '@prisma/client';
-import { prisma } from '@/config';
+import dayjs from 'dayjs';
 
 export function createEvent(params: Partial<Event> = {}): Promise<Event> {
   return prisma.event.create({

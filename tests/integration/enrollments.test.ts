@@ -194,7 +194,7 @@ describe('POST /enrollments', () => {
         birthday: faker.date.past().toISOString(),
         phone: '(21) 98999-9999',
         address: {
-          cep: '00000-000',
+          cep: '0',
           street: faker.address.streetName(),
           city: faker.address.city(),
           number: faker.datatype.number().toString(),
@@ -204,7 +204,7 @@ describe('POST /enrollments', () => {
         },
       });
 
-      it('should respond with status 400 when body is invalid', async () => {
+      it('should respond with status 400 when cep is invalid', async () => {
         const body = generateInvalidBody();
         const token = await generateValidToken();
 

@@ -1,5 +1,5 @@
-import { Router } from 'express';
 import { getDefaultEvent } from '@/controllers';
+import { Router } from 'express';
 
 const eventsRouter = Router();
 

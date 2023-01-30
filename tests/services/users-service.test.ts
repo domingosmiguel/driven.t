@@ -3,7 +3,7 @@ import { prisma } from '@/config';
 import userService, { duplicatedEmailError } from '@/services/users-service';
 import faker from '@faker-js/faker';
 import bcrypt from 'bcrypt';
-import { createUser as createUserSeed, createEvent as createEventSeed } from '../factories';
+import { createEvent as createEventSeed, createUser as createUserSeed } from '../factories';
 import { cleanDb } from '../helpers';
 
 beforeAll(async () => {
