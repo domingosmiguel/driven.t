@@ -13,6 +13,7 @@ export type ViaCEPAddress = {
   uf: string;
 };
 
+//Regra de Negócio
 export type AddressEnrollment = {
   logradouro: string;
   complemento: string;

@@ -44,6 +44,4 @@ export function handleApplicationErrors(
     error: 'InternalServerError',
     message: 'Internal Server Error',
   });
-
-  next();
 }
