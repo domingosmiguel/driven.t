@@ -1,37 +1,5 @@
 import { prisma } from '@/config';
 
-// function findPayedOnes(userId) {
-//   return prisma.ticket.findMany({
-//     where: {
-//       TicketType: {
-//         includesHotel: true,
-//       },
-//       status: 'PAID',
-//       Enrollment: {
-//         userId,
-//       },
-//     },
-//     select: {
-//       Enrollment: {
-//         select: {
-//           User: {
-//             select: {
-//               Booking: {
-//                 select: {
-//                   Room: {
-//                     select: {
-//                       Hotel: true,
-//                     },
-//                   },
-//                 },
-//               },
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-// }
 function findPayedOnesByUser(userId: number) {
   return prisma.hotel.findMany({
     where: {

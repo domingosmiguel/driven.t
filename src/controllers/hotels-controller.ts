@@ -1,3 +1,4 @@
+import { notFoundError } from '@/errors';
 import { AuthenticatedRequest } from '@/middlewares';
 import hotelsService from '@/services/hotels-service';
 import { Response } from 'express';
@@ -9,12 +10,12 @@ export async function getPayedHotels(req: AuthenticatedRequest, res: Response) {
     const hotels = await hotelsService.findPayedHotels(userId);
 
     if (hotels.length === 0) {
-      return res.status(httpStatus.NO_CONTENT).send([]);
+      return res.status(httpStatus.NOT_FOUND).send(notFoundError());
     }
 
     return res.send(hotels);
   } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
 
@@ -23,12 +24,12 @@ export async function getHotelRooms(req: AuthenticatedRequest, res: Response) {
   try {
     const hotelRooms = await hotelsService.findHotelRooms(parseInt(hotelId));
 
-    if (Object.keys(hotelRooms).length === 0) {
-      return res.status(httpStatus.NO_CONTENT).send({});
+    if (hotelRooms === null) {
+      return res.status(httpStatus.NOT_FOUND).send(notFoundError());
     }
 
     return res.send(hotelRooms);
   } catch (error) {
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
