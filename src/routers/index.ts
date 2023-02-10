@@ -1,4 +1,5 @@
 export * from './authentication-router';
+export * from './booking-router';
 export * from './enrollments-router';
 export * from './events-router';
 export * from './hotels-router';

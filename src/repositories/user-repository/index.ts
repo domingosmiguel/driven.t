@@ -21,9 +21,30 @@ async function create(data: Prisma.UserUncheckedCreateInput) {
   });
 }
 
+async function verifyTheRightToBook(userId: number) {
+  return prisma.user.count({
+    where: {
+      id: userId,
+      Enrollment: {
+        some: {
+          Ticket: {
+            some: {
+              status: 'PAID',
+              TicketType: {
+                includesHotel: true,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 const userRepository = {
   findByEmail,
   create,
+  verifyTheRightToBook,
 };
 
 export default userRepository;
