@@ -7,17 +7,26 @@ import { BookingRulesViolated, InvalidRoomId, RoomNotAvailable } from './error';
 async function getBookingByUser(userId: number) {
   const bookingWithRoom = await bookingRepository.findByUserId(userId);
 
-  return exclude(bookingWithRoom, 'userId', 'roomId', 'createdAt', 'updatedAt');
+  return bookingWithRoom === null
+    ? bookingWithRoom
+    : exclude(bookingWithRoom, 'userId', 'roomId', 'createdAt', 'updatedAt');
 }
 
 async function editOrCreateBooking({ id, userId, roomId }: BookingData) {
-  if (userId) {
-    const canBook = await userRepository.verifyTheRightToBook(userId);
+  if (id) {
+    const validBookingId = await bookingRepository.findById(id);
 
-    if (!canBook) {
+    if (!validBookingId) {
       throw BookingRulesViolated();
     }
   }
+
+  const canBook = await userRepository.verifyTheRightToBook(userId);
+
+  if (!canBook) {
+    throw BookingRulesViolated();
+  }
+
   const room = await roomRepository.findById(roomId);
   if (!room) {
     throw InvalidRoomId();

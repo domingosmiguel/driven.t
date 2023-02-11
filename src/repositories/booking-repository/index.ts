@@ -33,8 +33,16 @@ async function upsert({ id, userId, roomId }: BookingData) {
   });
 }
 
-export type BookingData = Partial<Omit<Booking, 'createdAt' | 'updatedAt'>>;
+async function findById(id: number) {
+  return prisma.booking.findUnique({
+    where: {
+      id,
+    },
+  });
+}
 
-const bookingRepository = { findByUserId, reservationCountForRoomId, upsert };
+export type BookingData = Partial<Pick<Booking, 'id'>> & Required<Pick<Booking, 'userId' | 'roomId'>>;
+
+const bookingRepository = { findByUserId, reservationCountForRoomId, upsert, findById };
 
 export default bookingRepository;

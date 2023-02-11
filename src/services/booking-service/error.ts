@@ -20,3 +20,10 @@ export function BookingRulesViolated(): ApplicationError {
     message: 'User can not book room',
   };
 }
+
+export function NoReservation(): ApplicationError {
+  return {
+    name: 'NoReservation',
+    message: 'User does not have a reservation',
+  };
+}
