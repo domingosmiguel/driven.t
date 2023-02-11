@@ -1,8 +1,8 @@
 import { notFoundError } from '@/errors';
 import { cannotListHotelsError } from '@/errors/cannot-list-hotels-error';
 import enrollmentRepository from '@/repositories/enrollment-repository';
-import hotelRepository from '@/repositories/hotel-repository';
-import ticketRepository from '@/repositories/ticket-repository';
+import hotelRepository from '@/repositories/hotels-repository';
+import ticketsRepository from '@/repositories/tickets-repository';
 
 async function listHotels(userId: number) {
   //Tem enrollment?
@@ -11,7 +11,7 @@ async function listHotels(userId: number) {
     throw notFoundError();
   }
   //Tem ticket pago isOnline false e includesHotel true
-  const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
+  const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
 
   if (!ticket || ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
     throw cannotListHotelsError();

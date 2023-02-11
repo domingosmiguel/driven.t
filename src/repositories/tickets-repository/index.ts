@@ -25,19 +25,6 @@ async function findById(id: number) {
   });
 }
 
-// async function upsert(ticketData: NewTicketEntity) {
-//   return prisma.ticket.upsert({
-//     where: { id: ticketData.id || 0 },
-//     create: {
-//       ticketTypeId: ticketData.ticketTypeId,
-//       enrollmentId: ticketData.enrollmentId,
-//       status: TicketStatus.RESERVED,
-//     },
-//     update: { status: TicketStatus.PAID },
-//     include: { TicketType: true },
-//   });
-// }
-
 async function insert(ticketData: NewTicketEntity) {
   return prisma.ticket.create({
     data: {
@@ -61,7 +48,6 @@ const ticketsRepository = {
   findTypeById,
   findTicketByEnrollmentId,
   findById,
-  // upsert,
   insert,
   update,
 };

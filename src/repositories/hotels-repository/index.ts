@@ -1,47 +1,23 @@
 import { prisma } from '@/config';
 
-function findPayedOnesByUser(userId: number) {
-  return prisma.hotel.findMany({
-    where: {
-      Rooms: {
-        some: {
-          Booking: {
-            some: {
-              User: {
-                id: userId,
-                Enrollment: {
-                  some: {
-                    Ticket: {
-                      some: {
-                        status: 'PAID',
-                        TicketType: {
-                          includesHotel: true,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
+async function findHotels() {
+  return prisma.hotel.findMany();
 }
 
-function findWithRooms(id: number) {
-  return prisma.hotel.findUnique({
-    where: { id },
+async function findRoomsByHotelId(hotelId: number) {
+  return prisma.hotel.findFirst({
+    where: {
+      id: hotelId,
+    },
     include: {
       Rooms: true,
-    },
+    }
   });
 }
 
-const hotelsRepository = {
-  findPayedOnesByUser,
-  findWithRooms,
+const hotelRepository = {
+  findHotels,
+  findRoomsByHotelId,
 };
 
-export default hotelsRepository;
+export default hotelRepository;
